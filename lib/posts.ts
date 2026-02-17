@@ -27,6 +27,23 @@ export const createPost = async (content: string) => {
 export const getPosts = async () => {
   return supabase
     .from('posts')
-    .select('*')
+    .select(`
+      *,
+      profiles (
+        username
+      )
+    `)
     .order('created_at', { ascending: false })
+}
+
+export const deletePost = async (id: string) => {
+  return supabase.from('posts').delete().eq('id', id)
+}
+
+
+export const updatePost = async (id: string , content: string)=>{
+  return supabase 
+  .from("posts")
+  .update({content})
+  .eq("id",id)
 }
